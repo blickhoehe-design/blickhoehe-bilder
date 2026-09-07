@@ -10,7 +10,7 @@ fertigen PNGs, kein Quellmaterial und keine Konzeptunterlagen.
 
 ## Adressformat
 
-    https://raw.githubusercontent.com/<konto>/blickhoehe-bilder/main/beitrag-01.png
+    https://raw.githubusercontent.com/<konto>/blickhoehe-bilder/main/beitrag-01.jpg
 
 ## Aktualisieren
 
