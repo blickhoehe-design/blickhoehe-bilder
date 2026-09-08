@@ -2,7 +2,7 @@
 # Holt die gerenderten Beiträge aus render/out und lädt sie hoch.
 set -e
 cd "$(dirname "$0")"
-cp ../render/out/*.jpg . 2>/dev/null || true
+cp ../render/out/*.jpg ../render/out/*.mp4 . 2>/dev/null || true
 git add -A
 if git diff --cached --quiet; then
   echo "Keine Änderungen — nichts hochzuladen."
