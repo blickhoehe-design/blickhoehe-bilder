@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLICKHÖHE — Diskrete Begleitung für Begegnungen auf Augenhöhe</title>
+<meta name="description" content="Diskrete Begleitung beim Kennenlernen für Frauen ab 40 im DACH-Raum. Die männliche Perspektive auf beobachtbares Verhalten — keine Therapie, keine Vermittlung, kein Erfolgsversprechen.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="BLICKHÖHE">
+<meta property="og:description" content="Diskrete Begleitung für Begegnungen auf Augenhöhe. Erfolgreiche Frauen ab 40, DACH.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,300&family=Archivo:wght@400;500;600&display=swap">
+<style>
+  html{-webkit-text-size-adjust:100%}
+  img{max-width:100%}
+
+  :root{
+    --grund:#E9EBE5; --flaeche:#F2F3EF; --ink:#0F1A17; --gedaempft:#59655D;
+    --akzent:#2C5F63; --linie:rgba(15,26,23,.15); --linie-stark:rgba(15,26,23,.3);
+    --serif:"Spectral",Georgia,"Times New Roman",serif;
+    --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --grund:#0F1A17; --flaeche:#1E332E; --ink:#E9EBE5; --gedaempft:#9AA79E;
+      --akzent:#7FB0B2; --linie:rgba(154,167,158,.22); --linie-stark:rgba(154,167,158,.44);
+    }
+  }
+  :root[data-theme="dark"]{
+    --grund:#0F1A17; --flaeche:#1E332E; --ink:#E9EBE5; --gedaempft:#9AA79E;
+    --akzent:#7FB0B2; --linie:rgba(154,167,158,.22); --linie-stark:rgba(154,167,158,.44);
+  }
+  *{box-sizing:border-box}
+  body{background:var(--grund);color:var(--ink);font-family:var(--serif);
+    font-weight:300;font-size:17.5px;line-height:1.64;margin:0}
+  .bahn{max-width:620px;margin:0 auto;padding:0 26px}
+
+  .zeichen{position:relative;height:1px;background:var(--akzent);opacity:.55}
+  .zeichen i{position:absolute;top:-4px;width:9px;height:9px;border:1px solid var(--akzent);
+    border-radius:50%;background:var(--grund);box-sizing:border-box}
+  .zeichen i:nth-child(1){left:0} .zeichen i:nth-child(2){left:18px}
+  .zeichen i:nth-child(3){right:18px} .zeichen i:nth-child(4){right:0}
+
+  header{padding:82px 0 0}
+  .marke{font-family:var(--sans);font-weight:500;font-size:clamp(24px,6.5vw,34px);
+    letter-spacing:.2em;margin:0 0 26px}
+  h1{font-size:clamp(27px,6.4vw,38px);font-weight:400;line-height:1.3;
+    margin:34px 0 0;max-width:19ch;text-wrap:balance}
+
+  section{padding:52px 0;border-top:1px solid var(--linie)}
+  h2{font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gedaempft);margin:0 0 20px}
+  p{margin:0 0 16px;max-width:60ch}
+  p:last-child{margin-bottom:0}
+  strong{font-weight:500}
+  .lead{font-size:20px;line-height:1.55;color:var(--ink)}
+
+  .saetze{list-style:none;margin:0;padding:0}
+  .saetze li{padding:14px 0;border-bottom:1px solid var(--linie);font-size:18px;line-height:1.45}
+  .saetze li:last-child{border-bottom:none}
+  .saetze li::before{content:"";display:inline-block;width:15px;height:1px;
+    background:var(--akzent);vertical-align:middle;margin-right:14px}
+
+  .schritte{list-style:none;margin:0;padding:0;counter-reset:s}
+  .schritte li{counter-increment:s;padding:20px 0 20px 52px;position:relative;
+    border-top:1px solid var(--linie)}
+  .schritte li:first-child{border-top:none}
+  .schritte li::before{content:counter(s);position:absolute;left:0;top:22px;
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--akzent)}
+  .schritte b{display:block;font-weight:500;font-size:19px;margin-bottom:4px}
+  .schritte span{color:var(--gedaempft);font-size:16px;line-height:1.5}
+
+  .grenze{border-left:2px solid var(--akzent);padding:2px 0 2px 22px}
+  .grenze p{font-size:16.5px;color:var(--gedaempft)}
+  .grenze p:first-child{color:var(--ink)}
+
+  .kontakt{background:var(--flaeche);padding:34px 30px;margin-top:8px}
+  .kontakt .code{font-family:var(--sans);font-size:clamp(30px,9vw,44px);font-weight:600;
+    letter-spacing:.22em;color:var(--akzent);margin:0 0 14px;line-height:1}
+  .kontakt p{font-size:16.5px;margin-bottom:0;color:var(--gedaempft)}
+  .kontakt p.stark{color:var(--ink);font-size:18px;margin-bottom:14px}
+
+  footer{padding:44px 0 92px;color:var(--gedaempft);font-family:var(--sans);
+    font-size:11.5px;letter-spacing:.05em;line-height:1.9}
+  a{color:var(--akzent)}
+</style>
+</head>
+<body>
+<div class="bahn">
+
+<header>
+  <p class="marke">BLICKHÖHE</p>
+  <div class="zeichen"><i></i><i></i><i></i><i></i></div>
+  <h1>Für Frauen, die alles erreicht haben — außer das.</h1>
+</header>
+
+<section>
+  <h2>Worum es geht</h2>
+  <p class="lead">Du bekommst die Perspektive, die dir sonst niemand ehrlich gibt: die männliche.</p>
+  <p>Deine Freundinnen sagen sie dir nicht, weil sie loyal sind. Männer sagen sie dir nicht, weil sie in dem Moment noch Interesse haben. Und in ein Coaching mit Erfolgsversprechen willst du nicht.</p>
+  <p>BLICKHÖHE ist eine Einschätzung zum Kennenlernen — was du unbewusst sendest, wann Männer zurückweichen und warum, welche deiner Standards halten und welche nur Abstand herstellen. Beobachtbares Verhalten, keine Deutung deiner Person.</p>
+</section>
+
+<section>
+  <h2>Für wen</h2>
+  <ul class="saetze">
+    <li>Frauen ab 40 im deutschsprachigen Raum</li>
+    <li>Beruflich weit gekommen, finanziell eigenständig</li>
+    <li>Seit Jahren allein oder in einer Serie kurzer Beziehungen</li>
+    <li>Und in einer Lage, in der offen zu suchen keine Option ist</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Wie es abläuft</h2>
+  <ol class="schritte">
+    <li>
+      <b>Ein Gespräch</b>
+      <span>Sechzig Minuten, per Video. Du erzählst, ich frage. Am Ende benenne ich ein Muster — das ist die Probe meiner Arbeit, nicht ein Verkaufsgespräch.</span>
+    </li>
+    <li>
+      <b>STANDORT</b>
+      <span>Zwanzig Fragen beantwortest du schriftlich. Ich schreibe daraus eine Analyse: was ich sehe, dein Muster, wo dein Pool wirklich ist, was du unbewusst sendest, welche Standards halten — und drei Änderungen für die nächsten neunzig Tage.</span>
+    </li>
+    <li>
+      <b>Begleitung</b>
+      <span>Ein kurzer Draht über Threema, wenn eine Situation ansteht und du eine zweite Einschätzung willst. Mit festem Antwortfenster, nicht rund um die Uhr.</span>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Diskretion</h2>
+  <p>Die Kommunikation läuft über <strong>Threema</strong>, nicht über eine Plattform. Ich führe keine Kundenliste, die deinen Namen mit dem Thema verbindet. Nichts liegt in einem Netzwerk, niemand sieht, dass du da bist.</p>
+  <p>Nach außen tritt die Marke auf. Dir gegenüber steht mein voller Name, ein Videogespräch und eine ordentliche Rechnung — Anonymität nach innen wäre ein Warnsignal.</p>
+  <p><strong>Was hier besprochen wird, bleibt hier.</strong></p>
+</section>
+
+<section>
+  <h2>Was ich nicht mache</h2>
+  <div class="grenze">
+    <p>Ich verspreche kein Ergebnis. Keine Partnerschaft in sechs Monaten, keine Erfolgsquote. Verkauft wird Einschätzung und Begleitung — nie etwas, über das eine zweite Person mitentscheidet.</p>
+    <p>Ich vermittle niemanden. Ich habe keine Kartei und stelle niemanden vor.</p>
+    <p>Und ich mache keine Therapie, keine Paarberatung und keine Arbeit an Kindheitsprägungen. Bei akuter Trennungskrise, Depression, Trauer oder Traumafolgen verweise ich weiter — dafür habe ich Adressen. Das schützt dich und mich.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Wenn du anfangen willst</h2>
+  <div class="kontakt">
+    <p class="code">BLICK</p>
+    <p class="stark">Schreib mir dieses Wort als Nachricht auf Instagram.</p>
+    <p>Mehr braucht es nicht. Ich melde mich, wir klären in ein paar Sätzen, ob das passt — und wenn nicht, sage ich dir das auch.</p>
+  </div>
+</section>
+
+<div class="zeichen"><i></i><i></i><i></i><i></i></div>
+
+<footer>
+  BLICKHÖHE — Diskrete Begleitung für Begegnungen auf Augenhöhe.<br>
+  Erfolgreiche Frauen ab 40, DACH. Keine Therapie, keine Vermittlung, kein Erfolgsversprechen.
+</footer>
+
+</div>
+</body>
+</html>
