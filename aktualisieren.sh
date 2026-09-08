@@ -11,5 +11,5 @@ fi
 git commit -q -m "Beiträge aktualisiert $(date +%d.%m.%Y)"
 git push -q origin main
 echo "Hochgeladen. Adressen:"
-konto=$(git remote get-url origin | sed -E 's#.*github.com[:/]([^/]+)/([^/.]+).*#\1/\2#')
+konto=$(git remote get-url origin | sed -E 's#^.*[:/]([^:/]+)/([^/]+)\.git$#\1/\2#')
 for f in beitrag-*.jpg reel-*.mp4; do echo "  https://raw.githubusercontent.com/${konto}/main/${f}"; done
