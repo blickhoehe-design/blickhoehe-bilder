@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STANDORT — BLICKHÖHE</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<!-- Schriften selbst gehostet — beim Aufruf dieser Seite geht keine Verbindung zu Dritten. -->
+<link rel="stylesheet" href="../schrift.css">
+<style>
+  *{box-sizing:border-box}
+  html{color-scheme:light dark}
+  img{max-width:100%}
+  :root{
+    --grund:#E9EBE5; --flaeche:#F2F3EF; --ink:#0F1A17; --gedaempft:#59655D;
+    --akzent:#2C5F63; --linie:rgba(15,26,23,.15); --linie-stark:rgba(15,26,23,.3);
+    --serif:"Spectral",Georgia,"Times New Roman",serif;
+    --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --grund:#0F1A17; --flaeche:#1E332E; --ink:#E9EBE5; --gedaempft:#9AA79E;
+      --akzent:#7FB0B2; --linie:rgba(154,167,158,.22); --linie-stark:rgba(154,167,158,.44);
+    }
+  }
+  :root[data-theme="dark"]{
+    --grund:#0F1A17; --flaeche:#1E332E; --ink:#E9EBE5; --gedaempft:#9AA79E;
+    --akzent:#7FB0B2; --linie:rgba(154,167,158,.22); --linie-stark:rgba(154,167,158,.44);
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--grund);color:var(--ink);font-family:var(--serif);
+    font-weight:300;font-size:17px;line-height:1.62;margin:0}
+  .bahn{max-width:660px;margin:0 auto;padding:0 26px}
+
+  .zeichen{position:relative;height:1px;background:var(--akzent);opacity:.55}
+  .zeichen i{position:absolute;top:-4px;width:9px;height:9px;border:1px solid var(--akzent);
+    border-radius:50%;background:var(--grund);box-sizing:border-box}
+  .zeichen i:nth-child(1){left:0} .zeichen i:nth-child(2){left:18px}
+  .zeichen i:nth-child(3){right:18px} .zeichen i:nth-child(4){right:0}
+
+  header{padding:70px 0 0}
+  .augenbraue{font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.2em;
+    color:var(--akzent);margin:0 0 22px;text-transform:uppercase}
+  h1{font-family:var(--sans);font-weight:500;font-size:clamp(26px,6.5vw,40px);
+    letter-spacing:.19em;line-height:1.12;margin:0 0 26px}
+  .intro{margin:26px 0 0}
+  .intro p{margin:0 0 14px;max-width:60ch}
+
+  .hinweis{border-left:2px solid var(--akzent);padding:2px 0 2px 20px;margin:34px 0 0}
+  .hinweis .kopf{font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--akzent);margin:0 0 8px}
+  .hinweis p{font-size:15.5px;margin:0 0 10px;color:var(--gedaempft);max-width:58ch}
+  .hinweis p:last-child{margin:0}
+
+  .gruppe{padding:46px 0 0;border-top:1px solid var(--linie);margin-top:46px}
+  .gruppe h2{font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gedaempft);margin:0 0 4px}
+  .gruppe .zahlen{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.08em;
+    color:var(--akzent);font-variant-numeric:tabular-nums;margin:0 0 26px}
+
+  .frage{margin:0 0 30px}
+  .frage .nr{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.12em;
+    color:var(--akzent);font-variant-numeric:tabular-nums;display:block;margin-bottom:6px}
+  .frage label{display:block;font-size:18px;line-height:1.45;margin:0 0 4px;cursor:pointer}
+  .frage .zusatz{font-size:14.5px;color:var(--gedaempft);margin:0 0 10px;max-width:56ch}
+  .frage.wichtig .zusatz{color:var(--akzent)}
+  textarea{width:100%;min-height:88px;background:var(--flaeche);color:var(--ink);
+    border:1px solid var(--linie);border-radius:2px;padding:13px 14px;
+    font-family:var(--serif);font-weight:300;font-size:16.5px;line-height:1.55;
+    resize:vertical;outline:none;display:block}
+  textarea:focus{border-color:var(--akzent);box-shadow:0 0 0 2px color-mix(in srgb,var(--akzent) 22%,transparent)}
+  textarea::placeholder{color:var(--gedaempft);opacity:.65}
+
+  .fuss{border-top:1px solid var(--linie-stark);margin-top:52px;padding:38px 0 96px}
+  .stand{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.1em;
+    color:var(--gedaempft);font-variant-numeric:tabular-nums;margin:0 0 20px}
+  .stand b{color:var(--akzent);font-weight:600}
+  .knopfreihe{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  button{font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.13em;
+    text-transform:uppercase;padding:14px 24px;border-radius:2px;cursor:pointer;
+    border:1px solid var(--akzent);background:var(--akzent);color:var(--grund)}
+  button.leise{background:transparent;color:var(--akzent)}
+  button:focus-visible{outline:2px solid var(--akzent);outline-offset:3px}
+  button:hover{opacity:.86}
+  .rueckmeldung{font-family:var(--sans);font-size:12px;letter-spacing:.05em;
+    color:var(--akzent);margin:16px 0 0;min-height:1.4em}
+  .fussnote{color:var(--gedaempft);font-family:var(--sans);font-size:11.5px;
+    letter-spacing:.05em;line-height:1.8;margin:30px 0 0}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bahn">
+
+<header>
+  <p class="augenbraue">BLICKHÖHE · STANDORT</p>
+  <h1>FRAGEBOGEN</h1>
+  <div class="zeichen"><i></i><i></i><i></i><i></i></div>
+
+  <div class="intro">
+    <p>Zwanzig Fragen. Du brauchst dafür 25 bis 40 Minuten.</p>
+    <p>Antworte in ganzen Sätzen, nicht in Stichworten — ich arbeite mit deinen Formulierungen, nicht mit Kategorien. Wo du unsicher bist, schreib die unsichere Antwort. Sie ist brauchbarer als die geglättete.</p>
+    <p>Es gibt keine Frage, die du überspringen musst. Wenn dir eine zu weit geht, schreib das hinein — auch das sagt etwas.</p>
+  </div>
+
+  <div class="hinweis">
+    <p class="kopf">Vertraulich</p>
+    <p>Diese Seite sendet nichts. Deine Antworten bleiben in deinem Browser, während du schreibst, und werden dort automatisch zwischengespeichert — du kannst die Seite schließen und später weitermachen.</p>
+    <p>Am Ende kopierst du sie selbst und schickst sie über Threema. Es gibt keinen Server, der mitliest, und kein Formular, das irgendwo ankommt.</p>
+  </div>
+</header>
+
+<div class="gruppe">
+  <h2>Ausgangslage</h2>
+  <p class="zahlen">Frage 1 – 4</p>
+
+  <div class="frage">
+    <span class="nr">01</span>
+    <label for="f1">Wie lange bist du jetzt allein — und war das eine Entscheidung oder ein Zustand?</label>
+    <textarea id="f1" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">02</span>
+    <label for="f2">Beschreibe deine letzte längere Beziehung in fünf Sätzen. Woran ist sie gescheitert?</label>
+    <textarea id="f2" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">03</span>
+    <label for="f3">Wie viele Männer hast du in den letzten zwölf Monaten getroffen? Wie viele davon ein zweites Mal?</label>
+    <textarea id="f3" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">04</span>
+    <label for="f4">Wo hast du diese Männer kennengelernt? Zähl die Wege einzeln auf.</label>
+    <textarea id="f4" placeholder="…"></textarea>
+  </div>
+</div>
+
+<div class="gruppe">
+  <h2>Wie du dich zeigst</h2>
+  <p class="zahlen">Frage 5 – 10</p>
+
+  <div class="frage">
+    <span class="nr">05</span>
+    <label for="f5">Wer hat den Kontakt jeweils beendet — du oder er? Und in welchem Moment genau?</label>
+    <textarea id="f5" placeholder="…"></textarea>
+  </div>
+  <div class="frage wichtig">
+    <span class="nr">06</span>
+    <label for="f6">Füg eine echte erste Nachricht ein, die du geschrieben hast. Unverändert.</label>
+    <p class="zusatz">Das ist die wichtigste Frage im ganzen Bogen. Eine echte Nachricht zeigt mir mehr als zehn Selbstbeschreibungen. Bitte nicht glätten, nicht nachbessern, nicht die beste aussuchen — kopier eine, so wie sie dastand.</p>
+    <textarea id="f6" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">07</span>
+    <label for="f7">Wann im Kennenlernen erzählst du, was du beruflich machst — und wie formulierst du es?</label>
+    <textarea id="f7" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">08</span>
+    <label for="f8">Was passiert danach? Beschreib die Reaktion, die du am häufigsten erlebst.</label>
+    <textarea id="f8" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">09</span>
+    <label for="f9">Wie oft hast du im letzten Jahr ein Treffen abgesagt oder verschoben? Was war der Anlass?</label>
+    <textarea id="f9" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">10</span>
+    <label for="f10">Wovon erzählst du beim ersten Treffen bewusst nicht?</label>
+    <textarea id="f10" placeholder="…"></textarea>
+  </div>
+</div>
+
+<div class="gruppe">
+  <h2>Standards</h2>
+  <p class="zahlen">Frage 11 – 15</p>
+
+  <div class="frage">
+    <span class="nr">11</span>
+    <label for="f11">Welche drei Eigenschaften müssen vorhanden sein — ohne Verhandlung?</label>
+    <textarea id="f11" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">12</span>
+    <label for="f12">Welche drei hast du in den letzten fünf Jahren stillschweigend gestrichen?</label>
+    <textarea id="f12" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">13</span>
+    <label for="f13">Woran würdest du merken, dass ein Mann dir ebenbürtig ist?</label>
+    <p class="zusatz">Nenn ein konkretes Verhalten, keine Eigenschaft.</p>
+    <textarea id="f13" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">14</span>
+    <label for="f14">Wobei hast du dich schon kleiner gemacht, als du bist?</label>
+    <textarea id="f14" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">15</span>
+    <label for="f15">Was ist dir wichtiger: dass er dein Leben versteht — oder dass er ein eigenes hat, das ihn ausfüllt?</label>
+    <textarea id="f15" placeholder="…"></textarea>
+  </div>
+</div>
+
+<div class="gruppe">
+  <h2>Rahmen</h2>
+  <p class="zahlen">Frage 16 – 20</p>
+
+  <div class="frage">
+    <span class="nr">16</span>
+    <label for="f16">Was sagen dir Freundinnen über dein Verhalten beim Kennenlernen, das du nicht hören willst?</label>
+    <textarea id="f16" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">17</span>
+    <label for="f17">Wie sieht eine gewöhnliche Woche bei dir aus? Wo wäre überhaupt Platz für jemanden?</label>
+    <textarea id="f17" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">18</span>
+    <label for="f18">Wer hat sonst noch Anspruch auf deine Zeit — Kinder, Eltern, Unternehmen?</label>
+    <textarea id="f18" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">19</span>
+    <label for="f19">Was befürchtest du, wenn du dir vorstellst, dass es tatsächlich funktioniert?</label>
+    <textarea id="f19" placeholder="…"></textarea>
+  </div>
+  <div class="frage">
+    <span class="nr">20</span>
+    <label for="f20">Wenn in einem Jahr nichts passiert wäre — was hätte sich in deinem Leben verändert?</label>
+    <textarea id="f20" placeholder="…"></textarea>
+  </div>
+</div>
+
+<div class="fuss">
+  <p class="stand"><b id="beantwortet">0</b> von 20 beantwortet</p>
+  <div class="knopfreihe">
+    <button id="kopieren" type="button">Antworten kopieren</button>
+    <button id="leeren" class="leise" type="button">Alles löschen</button>
+  </div>
+  <p class="rueckmeldung" id="rueckmeldung"></p>
+  <p class="fussnote">
+    Kopieren legt alle zwanzig Antworten als Text in deine Zwischenablage. Füg sie in Threema ein und schick sie ab.<br>
+    Danach hörst du innerhalb von fünf Werktagen von mir.<br><br>
+    BLICKHÖHE — Was hier besprochen wird, bleibt hier.
+  </p>
+</div>
+
+<div class="zeichen"><i></i><i></i><i></i><i></i></div>
+
+</div>
+
+<script>
+(function(){
+  var SCHLUESSEL = "blickhoehe-standort-v1";
+  var felder = [];
+  for (var i = 1; i <= 20; i++) felder.push(document.getElementById("f" + i));
+
+  function lesen(){
+    try { return JSON.parse(localStorage.getItem(SCHLUESSEL) || "{}"); }
+    catch (e) { return {}; }
+  }
+  function sichern(){
+    var d = {};
+    felder.forEach(function(el, i){ if (el.value.trim()) d["f" + (i+1)] = el.value; });
+    try { localStorage.setItem(SCHLUESSEL, JSON.stringify(d)); } catch (e) {}
+  }
+  function zaehlen(){
+    var n = felder.filter(function(el){ return el.value.trim().length > 0; }).length;
+    document.getElementById("beantwortet").textContent = n;
+  }
+  function wachsen(el){
+    el.style.height = "auto";
+    el.style.height = Math.max(88, el.scrollHeight + 2) + "px";
+  }
+
+  var gespeichert = lesen();
+  felder.forEach(function(el, i){
+    var wert = gespeichert["f" + (i+1)];
+    if (wert) el.value = wert;
+    wachsen(el);
+    el.addEventListener("input", function(){ wachsen(el); zaehlen(); sichern(); });
+  });
+  zaehlen();
+
+  var fragen = [];
+  document.querySelectorAll(".frage label").forEach(function(l){ fragen.push(l.textContent.trim()); });
+
+  function melden(text){
+    var r = document.getElementById("rueckmeldung");
+    r.textContent = text;
+    setTimeout(function(){ if (r.textContent === text) r.textContent = ""; }, 5000);
+  }
+
+  document.getElementById("kopieren").addEventListener("click", function(){
+    var zeilen = ["STANDORT — Fragebogen", ""];
+    felder.forEach(function(el, i){
+      zeilen.push((i+1) + ". " + fragen[i]);
+      zeilen.push(el.value.trim() || "(nicht beantwortet)");
+      zeilen.push("");
+    });
+    var text = zeilen.join("\n");
+    function ersatz(){
+      var t = document.createElement("textarea");
+      t.value = text; t.style.position = "fixed"; t.style.opacity = "0";
+      document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); melden("Kopiert. Jetzt in Threema einfügen."); }
+      catch (e) { melden("Kopieren hat nicht geklappt — markier den Text von Hand."); }
+      document.body.removeChild(t);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){
+        melden("Kopiert. Jetzt in Threema einfügen.");
+      }, ersatz);
+    } else { ersatz(); }
+  });
+
+  document.getElementById("leeren").addEventListener("click", function(){
+    if (!confirm("Alle Antworten auf dieser Seite löschen? Das lässt sich nicht rückgängig machen.")) return;
+    felder.forEach(function(el){ el.value = ""; wachsen(el); });
+    try { localStorage.removeItem(SCHLUESSEL); } catch (e) {}
+    zaehlen();
+    melden("Gelöscht.");
+  });
+})();
+</script>
+</body>
+</html>
