@@ -109,7 +109,7 @@
   <div class="hinweis">
     <p class="kopf">Vertraulich</p>
     <p>Diese Seite sendet nichts. Deine Antworten bleiben in deinem Browser, während du schreibst, und werden dort automatisch zwischengespeichert — du kannst die Seite schließen und später weitermachen.</p>
-    <p>Am Ende kopierst du sie selbst und schickst sie über Threema. Es gibt keinen Server, der mitliest, und kein Formular, das irgendwo ankommt.</p>
+    <p>Am Ende öffnet ein Knopf dein eigenes Mailprogramm mit deinen Antworten, adressiert an blickhoehe@gmail.com. Abgeschickt wird erst von dir. Es läuft kein Formulardienst und kein Tracking mit.</p>
   </div>
 </header>
 
@@ -242,12 +242,13 @@
 <div class="fuss">
   <p class="stand"><b id="beantwortet">0</b> von 20 beantwortet</p>
   <div class="knopfreihe">
-    <button id="kopieren" type="button">Antworten kopieren</button>
+    <button id="mailen" type="button">Per Mail senden</button>
+    <button id="kopieren" class="leise" type="button">Antworten kopieren</button>
     <button id="leeren" class="leise" type="button">Alles löschen</button>
   </div>
   <p class="rueckmeldung" id="rueckmeldung"></p>
   <p class="fussnote">
-    Kopieren legt alle zwanzig Antworten als Text in deine Zwischenablage. Füg sie in Threema ein und schick sie ab.<br>
+    „Per Mail senden“ öffnet dein Mailprogramm mit allen zwanzig Antworten. Manche Mailprogramme kürzen sehr lange Texte. Deshalb liegen die Antworten nach dem Klick zusätzlich in deiner Zwischenablage, falls etwas fehlt, fügst du sie einfach ein.<br>
     Danach hörst du innerhalb von fünf Werktagen von mir.<br><br>
     Judith Berger · BLICKHÖHE — Was hier besprochen wird, bleibt hier.
   </p>
@@ -296,30 +297,70 @@
   function melden(text){
     var r = document.getElementById("rueckmeldung");
     r.textContent = text;
-    setTimeout(function(){ if (r.textContent === text) r.textContent = ""; }, 5000);
+    setTimeout(function(){ if (r.textContent === text) r.textContent = ""; }, 15000);
   }
 
-  document.getElementById("kopieren").addEventListener("click", function(){
-    var zeilen = ["STANDORT — Fragebogen", ""];
+  var ADRESSE = "blickhoehe@gmail.com";
+  var BETREFF = "STANDORT — Fragebogen";
+
+  function antworten(){
+    var zeilen = [BETREFF, ""];
     felder.forEach(function(el, i){
       zeilen.push((i+1) + ". " + fragen[i]);
       zeilen.push(el.value.trim() || "(nicht beantwortet)");
       zeilen.push("");
     });
-    var text = zeilen.join("\n");
+    return zeilen.join("\n");
+  }
+
+  // Legt den Text in die Zwischenablage. Ruft danach fertig(true|false) auf.
+  function kopieren(text, fertig){
     function ersatz(){
       var t = document.createElement("textarea");
       t.value = text; t.style.position = "fixed"; t.style.opacity = "0";
       document.body.appendChild(t); t.select();
-      try { document.execCommand("copy"); melden("Kopiert. Jetzt in Threema einfügen."); }
-      catch (e) { melden("Kopieren hat nicht geklappt — markier den Text von Hand."); }
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
       document.body.removeChild(t);
+      fertig(ok);
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function(){
-        melden("Kopiert. Jetzt in Threema einfügen.");
-      }, ersatz);
+      navigator.clipboard.writeText(text).then(function(){ fertig(true); }, ersatz);
     } else { ersatz(); }
+  }
+
+  // Mail- und Handy-Programme auf Apple und Android öffnen auch lange Adressen.
+  // Erst darüber wird die Mail ohne Antworten geöffnet; die Zwischenablage ist immer gefüllt.
+  var MAX_ADRESSE = 24000;
+
+  function mailAdresse(body){
+    return "mailto:" + ADRESSE + "?subject=" + encodeURIComponent(BETREFF) + "&body=" + encodeURIComponent(body);
+  }
+
+  document.getElementById("mailen").addEventListener("click", function(){
+    var text = antworten();
+    kopieren(text, function(kopiert){
+      var voll = mailAdresse(text);
+      if (voll.length <= MAX_ADRESSE) {
+        window.location.href = voll;
+        melden(kopiert
+          ? "Dein Mailprogramm öffnet sich mit deinen Antworten. Fehlt etwas oder öffnet sich nichts: Sie sind kopiert, schreib an " + ADRESSE + " und füg sie ein."
+          : "Dein Mailprogramm öffnet sich mit deinen Antworten. Öffnet sich nichts: Nutze „Antworten kopieren“ und schreib an " + ADRESSE + ".");
+      } else if (kopiert) {
+        window.location.href = mailAdresse("Meine Antworten sind lang und liegen in der Zwischenablage. Ich füge sie hier ein:\n\n");
+        melden("Mailprogramm öffnet sich. Deine Antworten sind kopiert, füg sie in die Mail ein.");
+      } else {
+        window.location.href = mailAdresse("Meine Antworten:\n\n");
+        melden("Mailprogramm öffnet sich. Kopier deine Antworten mit dem Knopf daneben und füg sie ein.");
+      }
+    });
+  });
+
+  document.getElementById("kopieren").addEventListener("click", function(){
+    kopieren(antworten(), function(ok){
+      melden(ok ? "Kopiert. Füg sie in eine Mail an " + ADRESSE + " ein."
+                : "Kopieren hat nicht geklappt. Markier den Text von Hand.");
+    });
   });
 
   document.getElementById("leeren").addEventListener("click", function(){
