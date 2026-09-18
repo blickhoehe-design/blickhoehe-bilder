@@ -1,6 +1,8 @@
 #!/bin/bash
 # Holt die gerenderten Beiträge aus render/out und lädt sie hoch.
 set -e
+# git über die Command Line Tools — das Xcode-git verweigert ohne bestätigte Lizenz den Dienst.
+export DEVELOPER_DIR=/Library/Developer/CommandLineTools
 cd "$(dirname "$0")"
 cp ../render/out/*.jpg ../render/out/*.mp4 . 2>/dev/null || true
 git add -A
