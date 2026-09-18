@@ -1,0 +1,32 @@
+name: Import Karussell 04
+
+on:
+  push:
+    paths:
+      - '.github/workflows/import-karussell-04.yml'
+  workflow_dispatch:
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download images
+        run: |
+          curl -fsSL -o karussell-04-1.jpg https://litter.catbox.moe/qnv4vx.jpg
+          curl -fsSL -o karussell-04-2.jpg https://litter.catbox.moe/aeaa91.jpg
+          curl -fsSL -o karussell-04-3.jpg https://litter.catbox.moe/hx3wr3.jpg
+          curl -fsSL -o karussell-04-4.jpg https://litter.catbox.moe/isa496.jpg
+          curl -fsSL -o karussell-04-5.jpg https://litter.catbox.moe/n2p2zc.jpg
+          ls -la karussell-04-*.jpg
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add karussell-04-1.jpg karussell-04-2.jpg karussell-04-3.jpg karussell-04-4.jpg karussell-04-5.jpg
+          git commit -m "Add karussell-04 (Beweis / old money carousel)" || echo "no changes to commit"
+          git push
