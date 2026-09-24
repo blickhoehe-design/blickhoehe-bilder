@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+<script>document.documentElement.className+=' js';</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BLICKHÖHE — Diskrete Begleitung für Begegnungen auf Augenhöhe</title>
@@ -130,6 +131,21 @@
   .af-hinweis{grid-column:1/-1;font-size:14.5px;color:var(--gedaempft);margin:0;max-width:58ch}
   footer a{color:var(--gedaempft);text-decoration:underline;text-underline-offset:3px}
   footer a:hover{color:var(--akzent)}
+
+  /* Bewegung: ruhig, und nur ohne 'reduzierte Bewegung' */
+  .reel{margin:6px 0 0;width:min(100%,300px);aspect-ratio:9/16;background:#0F1A17;
+    border:1px solid var(--linie);overflow:hidden}
+  .reel video{display:block;width:100%;height:100%;object-fit:cover}
+  .reel-notiz{font-family:var(--sans);font-size:11px;letter-spacing:.08em;color:var(--gedaempft);
+    margin:12px 0 0}
+  @media (prefers-reduced-motion: no-preference){
+    .js header .marke,.js header .zeichen,.js header h1{animation:auf .9s ease both}
+    .js header .zeichen{animation-delay:.15s}
+    .js header h1{animation-delay:.3s}
+    .js section{opacity:0;transform:translateY(14px);transition:opacity .9s ease,transform .9s ease}
+    .js section.sichtbar{opacity:1;transform:none}
+    @keyframes auf{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  }
 </style>
 </head>
 <body>
@@ -146,6 +162,15 @@
   <p class="lead">Du bekommst die Perspektive, die dir sonst niemand ehrlich gibt: die männliche.</p>
   <p>Deine Freundinnen sagen sie dir nicht, weil sie loyal sind. Männer sagen sie dir nicht, weil sie in dem Moment noch Interesse haben. Und in ein Coaching mit Erfolgsversprechen willst du nicht.</p>
   <p>BLICKHÖHE ist eine Einschätzung zum Kennenlernen — was du unbewusst sendest, wann Männer zurückweichen und warum, welche deiner Standards halten und welche nur Abstand herstellen. Beobachtbares Verhalten, keine Deutung deiner Person.</p>
+</section>
+
+<section>
+  <h2>Aus dem Feed</h2>
+  <figure class="reel">
+    <video src="reel-01.mp4" muted loop playsinline preload="metadata"
+      aria-label="Kurzes Video ohne Ton: Auf Augenhöhe heißt nicht: Er verdient so viel wie du. Augenhöhe ist keine Zahl auf einem Kontoauszug. Sie ist die Frage, ob zwei einander standhalten — ohne dass einer kleiner wird."></video>
+  </figure>
+  <p class="reel-notiz">OHNE TON · 12 SEKUNDEN</p>
 </section>
 
 <section>
@@ -193,8 +218,8 @@
 
 <section>
   <h2>Diskretion</h2>
-  <p>Der erste Kontakt läuft über Instagram, deine Antworten auf die zwanzig Fragen schickst du mir per Mail. Die eigentliche Arbeit läuft dann über <strong>Threema</strong>, nicht über eine Plattform. Die Threema-ID teile ich erst bei Abschluss, also wenn wir die Zusammenarbeit fest vereinbart haben. Ich führe keine Kundenliste, die deinen Namen mit dem Thema verbindet. Nichts liegt in einem Netzwerk, niemand sieht, dass du da bist.</p>
-  <p>Nach außen tritt die Marke auf. Dir gegenüber stehe ich, Judith Berger, mit Gesicht und im Videogespräch — mit einer anonymen Stimme würdest du nicht arbeiten, und das zu Recht.</p>
+  <p>Der erste Kontakt läuft über Instagram, deine Antworten auf die zwanzig Fragen schickst du mir per Mail. Die eigentliche Arbeit läuft dann über <strong>Threema</strong>, nicht über eine Plattform. Die Threema-ID teile ich erst bei Abschluss, also wenn wir die Zusammenarbeit fest vereinbart haben. Ich führe keine Kundenliste, die deinen Namen mit dem Thema verbindet. Nach dem ersten Kontakt liegt nichts mehr in einem sozialen Netzwerk, niemand sieht, dass du da bist.</p>
+  <p>Nach außen tritt nur die Marke auf. Im Videogespräch sitzt dir ein Mensch gegenüber, mit Gesicht — mit einer anonymen Stimme würdest du nicht arbeiten, und das zu Recht.</p>
   <p><strong>Was hier besprochen wird, bleibt hier.</strong></p>
 </section>
 
@@ -278,6 +303,32 @@
       navigator.clipboard.writeText(t).then(function(){ melden("Kopiert."); }, ersatz);
     } else { ersatz(); }
   });
+})();
+</script>
+<script>
+(function(){
+  var ruhig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var abschnitte = document.querySelectorAll("section");
+  var video = document.querySelector(".reel video");
+  if (!("IntersectionObserver" in window)) {
+    abschnitte.forEach(function(s){ s.classList.add("sichtbar"); });
+    if (video) video.controls = true;
+    return;
+  }
+  var io = new IntersectionObserver(function(e){
+    e.forEach(function(x){ if (x.isIntersecting){ x.target.classList.add("sichtbar"); io.unobserve(x.target); } });
+  }, {rootMargin:"0px 0px -8% 0px"});
+  abschnitte.forEach(function(s){ io.observe(s); });
+  if (!video) return;
+  function weg(){ var s = video.closest("section"); if (s) s.style.display = "none"; }
+  if (video.error) weg(); else video.addEventListener("error", weg);
+  if (ruhig) { video.controls = true; return; }
+  new IntersectionObserver(function(e){
+    e.forEach(function(x){
+      if (x.isIntersecting) { var p = video.play(); if (p && p.catch) p.catch(function(){ video.controls = true; }); }
+      else video.pause();
+    });
+  }, {threshold:.5}).observe(video);
 })();
 </script>
 </body>
